@@ -1,0 +1,29 @@
+# Render Blueprint — scheduled keep-alive cron job.
+# Spec: https://render.com/docs/blueprint-spec   Cron: https://render.com/docs/cronjobs
+#
+# Render free *web services* spin down after ~15 min of no inbound traffic.
+# This job pings them every 10 minutes so they stay awake.
+#
+# NOTE: Render Cron Jobs run on a paid instance (they are not part of the free
+# tier). If you want a $0 option, use the GitHub Actions workflow in this repo
+# (.github/workflows/keepalive.yml) instead — see README.
+services:
+  - type: cron
+    name: astrid-keepalive
+    runtime: node
+    plan: starter
+    schedule: "*/10 * * * *" # every 10 minutes (UTC); beats the ~15-min sleep window
+    buildCommand: npm install
+    startCommand: node ping.mjs
+    autoDeploy: true
+    envVars:
+      # Comma-separated URLs to ping. Set the real values in the Render dashboard
+      # (sync: false keeps them out of source control). Example:
+      #   https://astrid-site.onrender.com/api/health,https://astrid-cms.onrender.com/api/health
+      - key: TARGETS
+        sync: false
+      # Optional tuning — uncomment to override the defaults baked into ping.mjs:
+      # - key: TIMEOUT_MS
+      #   value: "60000"
+      # - key: RETRIES
+      #   value: "2"

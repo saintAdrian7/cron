@@ -1,0 +1,13 @@
+{
+  "name": "astrid-keepalive",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pings The Astrid site + CMS on a schedule to keep Render free web services awake.",
+  "scripts": {
+    "start": "node ping.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
