@@ -12,7 +12,7 @@ services:
     name: astrid-keepalive
     runtime: node
     plan: starter
-    schedule: "*/10 * * * *" # every 10 minutes (UTC); beats the ~15-min sleep window
+    schedule: "*/5 * * * *" # every 5 minutes (UTC); beats the ~15-min sleep window
     buildCommand: npm install
     startCommand: node ping.mjs
     autoDeploy: true
